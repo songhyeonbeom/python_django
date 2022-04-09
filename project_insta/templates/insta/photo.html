@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block metadescription %}
+    {{photo.description | truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+    {{photo.name}} - PLATE-STUDIO
+{% endblock %}
+
+{% block content %}
+    <div class="row my_prod_row_class">
+        <div class="mx-auto">
+            <p><a href = "{% url 'photo:allPhotoAB' %}">Home</a> | <a href = "{{photo.album.get_url}}">{{photo.album}}</a> | {{photo.name}}</p>
+        </div>
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg6 text-center">
+                    <div style="min-width: 18rem">
+                        <img src = "{{photo.image.url}}" alt = "{{photo.name}}">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+.textarea {
+    width:100%;
+}
+
+.textarea2 {
+  font-size: 16px;
+  font-size: max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: red;
+  border: 2px solid var(--input-border);
+  border-radius: 4px;
+}
+
+
+input[type=submit] {
+    margin-top:10px;
+}
+
+.comment {
+    border-top:dotted 1px #ddd;
+    font-size:0.7em;
+}
+
+
+
+
+
+

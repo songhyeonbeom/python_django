@@ -1,0 +1,48 @@
+{% load static %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel = "stylesheet" href = "{% static 'css/bootstrap.min.css' %}">
+
+<meta name = "description" content = "{% block metadescription %}{% endblock %}">
+
+<!-- insta&Ans_Com CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+</head>
+
+<body>
+
+    <!-- jQuery JS -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- 자바스크립트 Start -->
+    {% block script %}
+    {% endblock %}
+    <!-- 자바스크립트 End -->
+
+
+
+    <div class = "container">
+        {% include 'navbar.html' %}
+        <br>
+        {% block content %}
+        {% endblock %}
+    </div>
+        {% include 'footer.html' %}
+
+
+
+
+
+</body>
+
+</html>

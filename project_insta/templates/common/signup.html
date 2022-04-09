@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-3"  style="text-align:center">
+    <div class="row my-3">
+        <div class="col-12">
+            <h4>계정생성</h4>
+        </div>
+        <div class="col-8 text-right">
+            <!--            <span>또는 <a href="{% url 'common:login' %}">로그인 하세요.</a></span>-->
+        </div>
+    </div>
+    <form method="post" class="post-form" action="{% url 'common:signup' %}">
+        {% csrf_token %}
+        {% include "form_errors.html" %}
+
+
+        <div class="form-group">
+            <label for="username">아이디</label>
+            <input type="text" class="form-control" name="username" id="username"
+                   value="{{ form.username.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+        <div class="form-group">
+            <label for="password1">비밀번호</label>
+            <input type="password" class="form-control" name="password1" id="password1"
+                   value="{{ form.password1.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+        <div class="form-group">
+            <label for="password2">비밀번호 재확인</label>
+            <input type="password" class="form-control" name="password2" id="password2"
+                   value="{{ form.password2.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+
+        <div class="form-group">
+            <label for="realname">이름</label>
+            <input type="text" class="form-control" name="realname" id="realname"
+                   value="{{ form.realname.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+
+        <div class="form-group">
+            <label for="birth_date">생년월일</label>
+            <input type="date" class="form-control" name="birth_date" id="birth_date"
+                   value="{{ form.birth_date.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+
+        <div class="form-group">
+            <label>성별</label><br>
+
+            <label for="man">남자</label>
+            <input type="radio" name="gender" id="man"
+                   value="{{ form.gender.value|default_if_none:'0' }}">
+            <label for="woman">여자</label>
+            <input type="radio" name="gender" id="woman"
+                   value="{{ form.gender.value|default_if_none:'1' }}">
+            <label for="goman">고자</label>
+            <input type="radio" name="gender" id="goman"
+                   value="{{ form.gender.value|default_if_none:'2' }}">
+        </div>
+
+
+
+        <div class="form-group">
+            <select name="gender2" id="gender2">
+                <option value="{{ form.gender2.value|default_if_none:'남자' }}" selected>남자</option>
+                <option value="{{ form.gender2.value|default_if_none:'여자' }}" selected>여자</option>
+                <option value="{{ form.gender2.value|default_if_none:'고자' }}" selected>고자</option>
+            </select>
+        </div>
+
+        <br>
+
+
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" name="email" id="email"
+                   value="{{ form.email.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">휴대전화</label>
+            <input type="tel" class="form-control" name="phone" id="phone"
+                   value="{{ form.phone.value|default_if_none:'' }}"
+                   style="width:200px; margin:auto;">
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">생성하기</button>
+    </form>
+</div>
+
+{% endblock %}

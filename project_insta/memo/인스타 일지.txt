@@ -1,0 +1,864 @@
+urls.py - navbar.html - context_processors.py - models.py - views.py - album_detail.html
+
+1. navbar.html 에서 12~14줄
+만들어진 links 가 있음. 데이터가 들어있다. 
+get_absolute_url 로 정의된 데이터 덩어리를 cat 에다가 하나씩 뺀다.
+그럼 links는 어디에 걸려있는걸까.
+insta 안에 context_processors.py에 def menu_links 안에
+links 가 Album 에 걸려있다
+그럼 이제 insta - models.py 에 모델을 확인해보면?
+class Album 하위 def get_absolute_url 이라고 정의가 되어진게 있다.
+안에 내용을 보자면 insta:album_detail 이라는 url을 따라가게 되어있다.
+class Album 의 id값을 가지고.!
+--------------------------------------------------------------------------------------------
+그럼이제 다시 insta app의 urls.py 에서 album_detail 이 뭐라 표시되어있는지 찾는다.
+path가 걸려있다.
+    path('photo/<int:pk>/', views.AlbumDV.as_view(), name='album_detail'),
+
+
+근데 지금 이해가 안되는 부분이,
+위에 저렇게 설정해서 카테고리에 id 로 추적해서 그 id의 name 이 추출되어 보이는 네비바
+근데 그 네비바를 누르면? templates - insta - album_detail.html 로 연결된다.
+
+이 부분이 이해 해야되는 부분,
+ 
+ =====================================================================
+ 
+ navbar.html 에서 links 라는거에 데이터가 들어있음.
+ 왜
+ context_processors.py에 links 가 
+ models.py에 class Album의 all 오브젝트라고 설정을 해놓음.
+ cat 이라고 만든거에 링크스에서 하나씩 빠져나오는 {} 실행
+ 거기서 name 을 추출해서 보이는거고,
+ href 로 하이퍼링크를 걸어준다.
++++++++++++++++++++++++++++++
+ get_absolute_url  = album 에서 뭐라되어있는지 본다.
+         return reverse('insta:album_detail', args = [self.id])
+이렇게 걸려있고.
+urls.py 로 가서 어떻게 표시되는가 확인한다.
+    path('photo/<int:pk>/', views.AlbumDV.as_view(), name='album_detail'),
+네임이 앨범_디테일로 되어있는거가 보니까 
+주소는 저렇게 보여지게 하겠다. photo/pk로 설정되어있는 id값
+views. 안에 저기 지정해준 함수를 실행하겠다.
+이제 저 앨범 디테일에 가보자.
+조또 아무것도 없음 걍
+모델 앨범에 연결되어있음.
+
+
+
+
+
+
+===========================================================================
+===========================================================================
+===========================================================================
+
+3월 23일
+
+로그인 django를 엎고 만드는로그인
+auth는 쓰지 않는 방향으로 잡는다.
+방법은 벌써 인터넷에 다 나와있다.
+오늘은 빠른이해가 필요하다.
+
+
+
+인터넷에 나와있는거.
+
+앱을 만든다.
+python manage.py startapp (앱이름자리)
+
+앱만들면
+settings.py 에 새롭게 App을 추가
+
+앱의 이름을 지정(common) 이라고 할때
+
+모델(models.py)
+입력할 코드들이 있다.
+
+폼(forms.py)
+입력할 코드들이 있다.
+
+어드민(admin.py)
+입력할 코드들이 있다.
+
+이제 커스텀유저모델 (등록)
+AUTH_USER_MODEL = 'common.User'
+
+python manage.py makemigrations
+python manage.py migrate
+
+db에 생성되었는지 확인한다.
+
+python manage.py createsuperuser
+
+python manage.py runserver
+
+
+
+
+---------------------------------------------------------------------------
+
+
+email
+
+date of birth
+
+password
+
+password
+
+
+
+아이디 		username  	type="text"
+비번		password1	type="password"	
+비번재확인	password2	type="password"
+
+이름		realname		type="text"
+생년월일		birth_date	type="date"
+성별		(찾는중)
+본인확인 이메일	email		type="email"
+휴대전화		phone		type="tel"
+
+
+
+주소
+
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+
+
+
+pybo-vote_question   
+파이보 urls.py 찾아가서 name = vote_question  을 보아라
+
+    path('vote/question/<int:question_id>/', vote_views.vote_question, name='vote_question'),
+
+주소 생성은 저렇게 되면서
+vote_views.py 안에 vote_question 을 봐라.
+ 		   vote_photo 를 만들어놨음.
+
+def vote_question(request, question_id):
+    return redirect('pybo:detail', question_id=question.id)
+    
+    
+def vote_photo(request, photo_id):
+    return redirect('insta:photo_detail', photo_id=photo.id)
+
+비슷하게 만들어놨음.
+    
+pybo views.py 안에 name detail 설정 되어있는것을 찾으라.
+
+    path('<int:question_id>/', base_views.detail, name='detail'),
+
+pybo - base_views 안에 detail이 만들어져 있다.
+
+    return render(request, 'pybo/question_detail.html', context)
+
+
+================================================================================================
+================================================================================================
+================================================================================================
+
+
+        <div class="form-group row">
+            {{ form.album|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+            <div class="col-sm-2">
+                {{ form.album|add_class:"form-control"|attr:"autofocus"  }}
+            </div>
+            
+
+
+
+
+insta context_processors.py
+def menu_links(request):
+    # select * from Ablum
+    customer = request.user.id
+    print(request)
+    # select username, id from Album where owner_id='1' or
+    links = Album.objects.filter(owner_id=customer)
+    return dict(links = links)
+
+templates navbar.html
+        {% for cat in links %}
+        <a class="nav-link" href="{{ cat.get_absolute_url }}">★{{cat.name}}</a>
+        {% endfor %}
+
+
+
+
+
+
+(1.개발목적)
+SNS를 만들고 싶었습니다.
+지금 나와있는것들은 너무 급속도로 퇴화 보다는
+쇠퇴의 표현이 적절한 느낌으로 변하고있습니다.
+빠르게 변하던가, 아니면 아에 미래적이던가.
+아에 미래적으로 구상한게 있어서
+프로젝트 방향을 웹에서 구현하는걸로 잡아보았습니다.
+
+(2.역할분담)
+이랄것도 없이 혼자 진행 중입니다.
+
+(3.주요기능)
+구현해놓은 기능으로는 로그인 앨범별 사진올리기위한
+앨범생성. 각 앨범별 사진 업로드.
+이렇게 올린걸 누가 어느앨범에 올렸는지
+구분하기위한 로그인/유저
+등이 있습니다.
+
+(4.기능시현)
+보여주기.
+
+(5.마치며)
+영상 어제 검색. (프로젝트 발표)
+어마무시했다. 상상초월이었다.
+6명이 한팀이었다.
+부러웠다.
+나는 구멍가게 만들때 걔네 대형마트 만들고있더라.
+근데 순간 또 드는생각이
+머릿속에 넘치는 아이디어를 구현할 스킬을 확실하게 익히면
+나혼자서 저게 안만들어질까? 라는 생각이 스침
+
+6.결론
+눈에 보이기 시작했으니 빨리익혀서 내맘대로 주무르겠다.
+
+
+앞으로 구현해내야 하는것들.
+1.한 게시물에 사진 여러장 업로드+ 보이게.
+2.페이지로 넘기지말고 동기/비동기 식으로 photo 불러와서 화면에 보여지기
+3.photo_detail 들어갔을때 동기/비동기 페이지 띄워지면서 바로 보이기.
+4.좋아요 동기/비동기 로 바꾸기
+5.카카오 로그인 구현하기
+6.user 검색 후 그 user페이지 앨범 훑어볼수있게 하기.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+class PhotoCV(LoginRequiredMixin, CreateView, ):
+
+    model = Photo
+
+    login_url = '/common/login/'
+    redirect_field_name = 'login'
+
+    fields = ('album', 'image', 'description',)
+    success_url = reverse_lazy('insta:allPhotoAB')
+
+    def get_context_data(self, **kwargs):
+
+        kwargs['latest_album_list'] = Photo.objects.filter(owner_id = self.request.user)
+        return super(PhotoCV, self).get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = User.objects.all()
+        field_name = ('id', 'email', 'username')
+
+        print(user.username)
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+
+
+
+
+
+
+
+
+
+def get_context_data(self, **kwargs):
+context = super().get_context_data(**kwargs)
+context['form'].fields['album'].queryset = User.objects.filter(username=self.request.user)
+return context
+
+
+
+원래는 모델/포토의 앨범 포링키로
+모델 포토의 id값이 적용
+순차로 다 보인다.
+
+하지만 밑에 걸고나서는? 보이기는 접속user의 id가 보이며
+아이디의 id번호와 앨범의 id 번호가 연결됌.
+
+하지만 지금 내가 바라는것은.?
+보이는것은 앨범의 이름이 보이길 바라며.
+아이디의 di 번호와 앨범 컬럼중의 owner번호 로 연결 되었으면 하는 바램이 있다.
+
+
+글로 적어서 보니까 한번에 보였다.
+계속 id가 다른곳에 걸리며 그 다른곳이 user
+그 user가 아니라 앨범에 걸고싶으니, user를 지우고 album을 넣어주었다.
+앨범에 걸리면서 오너도 잘 걸리고 유저별 앨범.
+앨범별 오너가 잘 걸려서 DB에 잘 걸렸다.
+기분이 좋다. 씨이발. 쫄라 행복하다.
+저 한줄가지고 2일걸렸다.
+뭔가... 하..... 이런거구나.................... 하........................
+앞으로 얼마나 더 싶팔같은 오류들이 기다리고있을가 씨이발꺼
+다깨뿌사야겠다.
+무튼 해결.
+
+
+
+
+
+네비 바 앨범 카테고리 버튼
+
+        {% for cat in links %}
+        <a class="nav-link" href="{{ cat.get_absolute_url }}">★{{cat.name}}</a>
+        {% endfor %}
+
+links는 insta.context_processors.py 에 정의되어있다.
+
+def menu_links(request):
+    customer = request.user.id
+    print(request)
+    links = Album.objects.filter(owner_id=customer)
+    return dict(links = links)
+
+links는 Album의 내용물에 필터가 걸려저서 오너아이디로 걸러진 것들.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

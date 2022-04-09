@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if album %}
+{{ album.name }} - PLATE-STUDIO
+{% else %}
+See Our Photos Collection - PLATE-STUDIO
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+<br>
+<div>
+    <h1 class="text-center my_title">BLACKVERI_0</h1>
+    <br>
+    <p class = "text-center">포토앨범 <br>사진을 등록해보세요</p>
+</div>
+<br><br>
+<div class="container">
+    <div class="row mx-auto">
+
+
+
+        {% for photo in links2 %}
+        <div class="my_bottom_margin col-9 col-sm-6 col-md-4 col-lg-4">
+            <div class="thumbnail" style="width: 100%; margin-bottom: 9%;">
+                <a href="{{ photo.get_absolute_url }}">
+
+
+
+                    <img src="{{ photo.image.thumb_url }}" style="width: 100%;">
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+    </div>
+    <br><br>
+    <div class="mx-auto">
+        {% if photos.paginator.num_pages > 1 %}
+        <br>
+        <div class="text-center">
+            {% for pg in photos.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn sm {% if photos.number == pg %}active{% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+{% endblock %}

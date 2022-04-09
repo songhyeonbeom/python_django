@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}album_detail.html{% endblock %}
+
+{% block extra-style %}
+<style>
+.thumbnail {
+    border: 5px solid #ccc;
+}
+</style>
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <div class="mt-5">
+        <span class="h2">{{ object.name }}&emsp;</span>
+        <span class="h5 font-italic">{{ object.description }}</span>
+    </div>
+    <hr style="margin: 0 0 20px 0;">
+    <div class="row">
+        {% for photo in object.photo_set.all %}
+<!--        <div class="col-12 col-sm-12 col-md-12 col-lg-6">-->
+<!--            <div class="my_bottom_margin col-9 col-sm-6 col-md-4 col-lg-4">-->
+
+
+                <div class="my_bottom_margin col-9 col-sm-6 col-md-4 col-lg-4">
+            <div class="card text-center" style="width: 18rem;">
+                <a href="{{ photo.get_absolute_url }}"><img class="card-img-top my_image" src="{{photo.image.url}}"
+                                                            alt="{{photo.upload_dt}}"></a>
+
+            <ul>
+                <div class="card-body">
+                    <h4>{{photo.title}}</h4>
+                </div>
+            </ul>
+        </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+
+    <div class="row my_prod_row_class">
+        <div class="mx-auto">
+            <p><a href = "{% url 'photo:allPhotoAB' %}">Home</a> | <a href = "{{photo.album.get_url}}">{{photo.album}}</a> | {{photo.name}}</p>
+        </div>
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg6 text-center">
+                    <div style="min-width: 18rem">
+                        <img src = "{{photo.image.url}}" alt = "{{photo.name}}">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
