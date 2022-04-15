@@ -304,8 +304,38 @@ def menu_links(request):
 
 links는 Album의 내용물에 필터가 걸려저서 오너아이디로 걸러진 것들.
 
+네비바에서 get_absolute_url 이 album에 있으니
+insta.album model 에 찾아와보면
+앨범 모델 안에 def get_absolute_url 이 있다.
+        return reverse('insta:album_detail', args = [self.slug])
 
+urls.py 에 가서 찾아보자.
+insta - urls.py 에 가서 album_detail 을 찾아보니,
+    path('<slug:c_slug>/', views.allPhotoAB, name='album_detail'),
+이렇게 작성이 있다.
+저기 적힌 곳으로 가보자.
+views.py 에 allPhotoAB 를 찾아간다.
 
+def 로 정의되어있다.
+
+c_slug != None:
+씨_슬러그)가 논이 아니라면, 이렇게 실행 (카테코리가 정해져있다. = 씨_슬러그)
+프린트*(2222)
+
+2가 프린트 되어 나오면서 안의 내용물이 잘 정렬되어 나온다.
+
+***************************************************************************************
+
+네비 바 하단 카테고리 / 이름  //나의사진들//
+                <a class="nav-link" href="{% url 'insta:myPhotoAB' %}">나의사진들</a>
+insta urls.py 에서 myPhotoAB 를 찾는다.
+    path('myPhotoAB/', views.myPhotoAB, name='myPhotoAB'),
+   
+views.py 에 def myPhotoAB 를 찾아왔다.
+씨_슬러그가 논으로 되어 카테고리가 정해진게 아니라 통으로 그 아이디 전체
+다 나오는거라서 프린트 3이 되었다.
+
+    
 
 
 
