@@ -19,7 +19,7 @@ def signup(request):
             email = request.POST['email']
 
             user = User.objects.create_user(username, password=raw_password)
-            
+
             customer = Customer()
             customer.user = user
             customer.name = username
